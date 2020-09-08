@@ -1,0 +1,99 @@
+---
+title: "Conservation of Asiatic cheetah and Persian leopard (CACPL)"
+subtitle: "How to use this package?"
+author: "Farid Cheraghi"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+    fig_caption: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{How to use this package?}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  cache=TRUE,
+  collapse = TRUE,
+  comment = "#>"
+)
+# load('../bk.RData')
+```
+
+There are a few numbered scripts in the `script` folder of the package that should be run consecutively. Certain scripts produce some data (i.e. dataframe) that are used in the subsequent scripts. The intermediate data are created wisely enabling a wide range of queries and ease of use when fitting statistical models. I will document these data and scripts here.
+
+# Raw (external) data
+The raw data are located in `extdata/` folder of the package:
+
+- `move/cheetah1.csv`, `move/cheetah2.csv` and `move/leopard.csv` are the two animal's movement data. 
+- `DEM1.tif` is the SRTM V3.0 digital eleveation model (DEM) of the study area.
+- `shp/city.shp`, `shp/highway.shp`, `shp/path.shp`, `shp/village.shp` and `shp/water.shp` are the shapefiles of cities, highways, human pathways, villages and water sources in the study area.
+- `weather/irimo_bafgh_2007.txt` contains the weather data of a synoptic station in bafgh city, north-west of the study area, collected from Iranian meteorological organization (IRIMO) in 2007. `weather/metadata.txt` contains information about the weather data. The weather data is in raw textual format which we processed, cleaned and transformed to tabular format. `weather/pattern` folder contains the text patterns I extracted manually from the raw weather data (`irimo_bafgh_2007.txt`) to enable the automatic transformation of the raw text data into tabular format. 
+- `weather/irimo_bafgh_1995-2017.csv` contains the weather data from the same synoptic station for 23 years from 1995 to 2017 in tabular format.
+
+# Intermediate data
+In my analysis of the animals' movement data, I have created a few intermediate data from the raw data which greatly enhances the analysis workflows. I avoided to store intermediate data in the `/data/` folder of the package because they are created as part of running the provided scripts. 
+
+1. I loaded the SRTM DEM and then computed the earth *slope* and *aspect* from it using `raster` package and stored all three layers as inidiviual raster layers in `rstrs` which is a single list object:
+
+```{r print-raster}
+(rstrs)
+```
+
+2. The weather data is loaded into `weather_bafgh` dataframe. I only kept the following 4 variables of weather data: 
+
+```{r weather_bafgh}
+str(weather_bafgh, 
+    max.level = 1, 
+    give.attr = F)
+```
+
+3. The movement data of all three animals are loaded into `move` which is a `sf` object i.e. a dataframe with a spatial list column. Movement data only have `x,y and time` columns. I used `adehabitatLT` package to cmpute the movement descriptors including step-length (`dist`), turn-angle (`rel.angle`), azimuth (`abs.angle`), R$^2_n$ etc. The I attached the enivornmental variables like `slope`, `wind_speed`, `water_dist` etc as covariates to it. The `ID` column is a factor consisting of `ch1`,`ch2` and `leo` corresponding to the three animals that I analyzed here. The `mode_null` column is the estimated movement *modes* (either encamped or moving) using hidden Markov chain (HMM) approach. For the cheetahs, the `event` column indicates whether the GPS position belongs to *before* or *after* their first separation. For the leopard, `event` indicates whether the GPS position belongs to either *before* or *after* the time it killed cheetah1.
+
+```{r}
+str(move, max.level=1, give.attr=F)
+```
+
+4. `move_mcp` is a list with 9 elements and each element is a `sfc_POLYGON` object. It has the computed home ranges of individual animals and their intersecting home ranges using minimum convex polygon (MCP) method. `leo` means the leopard track in the intersecting period with `ch1` track and `leo_full` means the whole track of the leopard.
+
+```{r move_mcp}
+str(move_mcp, max.level=1, give.attr=F)
+```
+
+5. `move_rsf` is a list with `all` and `encamped` elements and each of these elements has `ch1` and `leo` elements indicating the resource selection function (RSF) data structure for the RSF analysis. `all` means we used the whole track of the animal and `encamped` means I used only the encamped locations to create the data structure of RSF. `move_rsf$all$ch1` is a `sf` object which has the following columns. `used` column indicates whether the location is used by the animal or not. 
+
+```{r move_rsf}
+str(move_rsf$all$ch1, max.level = 1, give.attr=F)
+```
+
+6. `move_ssf` has three elements `all`, `moving` and `simult`; each of these have `ch1` or `leo` elements. `all` means the step-selection function (SSF) data structure is created for the whole track of an individual animal; `moving` means the SSF is created only for the moving locations of the animal; `simult` means at least two animals with their relative distances are considered in the creation of the data structure. 
+
+```{r move_ssf}
+str(move_ssf$moving$ch1, 
+    max.level = 1, 
+    give.attr=F)
+```
+
+7. `move_simult` is a sf object computed from `move` that has pair animals' distances (sep), line segments (seg), distance differences (sep_diff) and time difference (time_diff) where the time difference of the pair animals data points is less than 5 min. These observations are considered to be simultaneous. `move_simult_wide` is created from `move_simult` to analyze the interactions of more than two animals. For example, how does the cheetah1-leopard distance influence the cheetahs' distance? 
+
+```{r move_simult}
+str(move_simult[, c('ID1', 'ID2', 'sep', 'sep_diff', 'time_diff')], max.level = 2, give.attr = F)
+```
+
+8. `models` is a list created to hold the final models of the analyses. It has `r paste(names(models),collapse = ', ')` components and for example `models$hmm$ch1` has the HMM model of cheetah 1. lr is the acronym for linear regression and lor is an acronym for logistic regression.
+
+```{r models}
+str(models, max.level = 2, give.attr = F)
+```
+
+# Scripts
+All of the above intermediate data can be generated by running the numbered scripts. I took a lot of mileage from `magritter` piping operartors (i.e. `%>%`, `%$%`, `%T>%` and `%<>%`) for back referencing to increase code accessibility and to avoid unnecessary object creation. Each block of code starts with one or two input data and after a chain of function calls new objects are created using standard R right assignment (`->`). I used functions in base R packages to plot and restructure my data instead of using `ggplot2`, `dplyr` etc. 
+
+The only time-consuming function call is `spatial_covariates` that takes a movement track (in the form of a sf object) and attaches the spatial covariates (elevation, slope etc) to it. 
+
+- `01_01_load_move_gis_data.r` loads the data
+- 
