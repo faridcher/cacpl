@@ -8,10 +8,8 @@ results are totally reproducible and every user can generate them on their own
 systems. However, it is still a work in progress.
 
 ## How to use
-Please consult the following documents for a step by step guide at:
+I will provide detailed description of how to run the code on your computer soon. You should start from `main.r`.
 
-http://htmlpreview.github.io/?https://github.com/faridcher/cacpl/blob/master/inst/doc/how-to-use.html
-http://htmlpreview.github.io/?https://github.com/faridcher/cacpl/blob/master/inst/doc/hmm.html
 
 ## How to get and install
 Use git to clone or simply download a zip archive using GitHub interface.
@@ -21,7 +19,7 @@ git clone https://github.com/faridcher/cacpl
 ```
 
 ## Reference
-If you use the code and find this repository useful, at minimum please cite [1] and [4]. A copy of these papers are available from my [ResearchGate profile](https://www.researchgate.net/profile/Farid_Cheraghi).
+If you use the code and find this repository useful, at minimum please cite [1] and [4] and spread the words. A copy of these papers are available from my [ResearchGate profile](https://www.researchgate.net/profile/Farid_Cheraghi).
 
 [1] Farid Cheraghi, Mahmoud Reza Delavar, Farshad Amiraslani, Kazem Alavipanah,
   Eliezer Gurarie, Stephane Ostrowski, Luke Hunter, Houman Jowkar, and
