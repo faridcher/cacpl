@@ -1,13 +1,13 @@
 ## Intro
 
-This project is to enable researchers to reproduce the results of my Ph.D. thesis and the
+This project is to reproduce the results of my Ph.D. thesis and the
 corresponding journal and conference papers. This could be useful if you
 analyze animal movement data of any species to understand their movement
 patterns in their surrounding environment. It is a work in progress.
 
 ## File system hierarchy
 
-  - `main.r`: all analyses start here
+-   `main.r`: all analyses start here
 
 ## How to get
 
@@ -23,27 +23,27 @@ git clone https://github.com/faridcher/cacpl
 If you use the code and find this repository useful, at minimum please
 cite third and fifth item:
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-cheraghi18phd">
+<div id="ref-cheraghi18phd" class="csl-entry">
 
 Cheraghi, Farid. 2018. “Movement Mining Using Ambient Intelligence (in
 Persian).” PhD thesis, University of Tehran.
+<http://dx.doi.org/10.13140/RG.2.2.25753.95848>.
 
 </div>
 
-<div id="ref-cheraghi17bayes">
+<div id="ref-cheraghi17bayes" class="csl-entry">
 
 Cheraghi, Farid, Mahmoud Reza Delavar, Farshad Amiraslani, and Kazem
 Alavipanah. 2017. “Asiatic Cheetah Behavioral Estimation from Telemetry
 Data Using Bayesian Statistics.” In *Imaging and Geospatial Technology
 Forum IGTF 2017 ASPRS Conference Proceedings*. Baltimore, Maryland, USA:
 American Society for Photogrammetry; Remote Sensing (ASPRS).
-<https://www.asprs.org/publication/conference-proceedings/igtf-2017-conference-proceedings.html>.
 
 </div>
 
-<div id="ref-cheraghi19inter">
+<div id="ref-cheraghi19inter" class="csl-entry">
 
 Cheraghi, Farid, Mahmoud Reza Delavar, Farshad Amiraslani, Kazem
 Alavipanah, Eliezer Gurarie, Stephane Ostrowski, Luke Hunter, Houman
@@ -54,7 +54,7 @@ Environment (Mammalia: Felidae).” *Zoology in the Middle East* 65 (4):
 
 </div>
 
-<div id="ref-cheraghi18movemine">
+<div id="ref-cheraghi18movemine" class="csl-entry">
 
 Cheraghi, Farid, Mahmoud Reza Delavar, Farshad Amiraslani, and Seyed
 Kazem Alavipanah. 2018. “Movement Mining of Animals’ Behavior and
@@ -64,7 +64,7 @@ Interaction: Asiatic Cheetah and Persian Leopard in Bafq Protected Area
 
 </div>
 
-<div id="ref-cheraghi18stat">
+<div id="ref-cheraghi18stat" class="csl-entry">
 
 Cheraghi, Faridedin, Mahmoud Reza Delavar, Farshad Amiraslani, Seyed
 Kazem Alavipanah, Eliezer Gurarie, and William F. Fagan. 2018.
