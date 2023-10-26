@@ -3,7 +3,7 @@ title: "HMM"
 subtitle: "Cheetah 1 Movement Behavior Estimation"
 author: "Farid Cheraghi"
 date: '`r Sys.Date()`'
-bibliography: bib1.bib
+bibliography: hmm.bib
 nocite: |
   @cheraghi17
 link-citations: true

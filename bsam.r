@@ -1,0 +1,13 @@
+# fit bsam ----------------------------------------------------------------
+install.packages("bsam")
+library(bsam)
+move_sf <- process_move(regularize = T,as_sf = T,transform = F)
+ssm <- with(move_sf,data.frame(id=1, date=time,lc=3, lon=x, lat=y))
+fit <- fit_ssm(ssm, model="DCRWS", tstep=8/24, adapt=5000, samples=2000, thin=5)
+#pdf("diag_ssm.pdf")
+diag_ssm(fit)
+dev.off()
+map_ssm(fit)
+pdf("bsam.pdf")
+plot_fit(fit)
+#dev.off()
