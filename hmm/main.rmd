@@ -3,7 +3,7 @@ title: "HMM"
 subtitle: "Cheetah 1 Movement Behavior Estimation"
 author: "Farid Cheraghi"
 date: '`r Sys.Date()`'
-bibliography: hmm.bib
+bibliography: main.bib
 nocite: |
   @cheraghi17
 link-citations: true
@@ -40,15 +40,15 @@ Wind direction is the only circular covariate in the list of our covariates. Cir
 
 Wind direction is reported by meteorological organizations by the direction from which it originates. For example, a northerly wind blows from the north to the south. Wind direction is usually reported in cardinal directions or in azimuth degrees. For example, a wind coming from the south is given as 180 degrees; one from the east is 90 degrees.
 
-For other covariates we have included only the covariate itself and avoided to compute additional covariates such as second order polynomials or logarithm. The reason is that the fitting of hmm models doesn't converge when we include these additional covariates. 
+For other covariates we have included only the covariate itself and avoided to compute additional covariates such as second order polynomials or logarithm. The reason is that the fitting of HMM models doesn't converge when we include these additional covariates. 
 
 ## Initial parameters
 
-The choice of initial values is very critical for the hmm model to converge; it is important that the initial values to be as close as possible to their actual (estimated) values. There are many density functions that could characterize the distribution of movement metrics including gamma, weibell, exponential and chi-square for step-length and von-mises and wrapped-cauchy for the turn-angle distribution. gamma is the most general distribution and other distribution such as exponential or chi-square are the special cases for gamma. von-mises is the circular version of normal distribution and perfectly characterizes the turn-angle distribution. In the best case scenario of 2 states model, where movement metrics exhibit huge contrast, the per state densities are shown in the following illustration. In this graph, state 1 is the resting mode also known as range-resident mode and the state 2 is the moving mode (transient mode). In the resting mode the animal has shorter step-lengths which are accumulated near zero and turn-angles have roughly uniform distribution and their mean is zero. In the moving mode, the animal has larger step-lengths and thus gamma density has a larger mean and the density is skewed to the right to accommodate larger step-lengths; turn-angles have mean zero and a large concentration (small variance) that shows the directional movement in this mode.
+The choice of initial values is very critical for the HMM model to converge; it is important that the initial values to be as close as possible to their actual (estimated) values. There are many density functions that could characterize the distribution of movement metrics including gamma, weibell, exponential and chi-square for step-length and von-mises and wrapped-cauchy for the turn-angle distribution. gamma is the most general distribution and other distribution such as exponential or chi-square are the special cases for gamma. von-mises is the circular version of normal distribution and perfectly characterizes the turn-angle distribution. In the best case scenario of 2 states model, where movement metrics exhibit huge contrast, the per state densities are shown in the following illustration. In this graph, state 1 is the resting mode also known as range-resident mode and the state 2 is the moving mode (transient mode). In the resting mode the animal has shorter step-lengths which are accumulated near zero and turn-angles have roughly uniform distribution and their mean is zero. In the moving mode, the animal has larger step-lengths and thus gamma density has a larger mean and the density is skewed to the right to accommodate larger step-lengths; turn-angles have mean zero and a large concentration (small variance) that shows the directional movement in this mode.
 
 In the rest of this document, state 1 and resting state, state 2 and moving state are used interchangeably.
 
-![step-length and turn-angle distribution in high contrast situation](figures/movehmm1.png)
+![step-length and turn-angle distribution in high contrast situation](movehmm1.png)
 
 ### Step-length
 
@@ -62,9 +62,10 @@ The mean-variance parameterization is being used for gamma instead of more commo
 | State 2   | 0.5    | 0.3                |
 
 ```{r 'initvalue', fig.width = 4, fig.height = 4, fig.cap="Superimposition of gamma density function on step-length histogram with various mean and standard deviation values to choose initial values"}
-invisible(futils::par_fav())
+# invisible(futils::par_fav())
 # load ch1 windspeed hmm model
-# load('vignettes/hmm.rda')
+load('main.rda')
+source('helpers.r')
 hist(
   ch1_hmm_windspeed$data$step,
   freq = F,
@@ -85,14 +86,14 @@ It is also better to introduce variation to the initial values. Due to the numer
 mu0 <- c(rnorm(1,.1,sd=.1),rnorm(1,.5,sd = .1))    #initial mu of State 1, State 2
 sigma0 <- c(rnorm(1,.1, sd=.1),rnorm(1,.3, sd=.1)) #initial sigma of State 1, State 2
 ```
-If some steps are exactly equal to zero, then strictly positive distributions such as the gamma are inadequate. In such cases, zero-inflated distributions can be considered. A zero-inflated step length distribution simply assumes that there is a probability z of observing a 0 and a probability of (1−z) of observing a positive value distributed according to a standard positive distribution (e.g. a gamma). In that case the (state-dependent) values z will be estimated, with the remaining positive distribution, weighted by (1−z), specified as one of the available standard step length distributions [@patterson; @langrock]. We have excluded the zero-step length before model fitting and therefore set the *zero mass* equal to 0.
+If some steps are exactly equal to zero, then strictly positive distributions such as the gamma are inadequate. In such cases, zero-inflated distributions can be considered. A zero-inflated step length distribution simply assumes that there is a probability z of observing a 0 and a probability of (1−z) of observing a positive value distributed according to a standard positive distribution (e.g. a gamma). In that case the (state-dependent) values z will be estimated, with the remaining positive distribution, weighted by (1−z), specified as one of the available standard step length distributions [@patterson09; @langrock12]. We have excluded the zero-step length before model fitting and therefore set the *zero mass* equal to 0.
 
 ### Turn-angle
 
 Model fitting convergence is not very much sensitive to the turn-angle initial values compared to step-length.
 Turn-angle means are set to zero and kept fixed for both states and only concentration ($\kappa$) parameter of Von Mises is being estimated where the initial values are set to 1 for moving state and set to a value near zero (0.1) for resting state. 
 
-![Von-mises distribution for various concentration values](von_mises.png){width=50%}
+![Von-mises distribution for various concentration values](von-mises.png){width=50%}
 
 ## Additional terms
 

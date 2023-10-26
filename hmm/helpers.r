@@ -97,7 +97,7 @@ hmm_aic_reporting <- function(models) {
 #' plot(m)
 hmm_plot_CI <- function(m) {
 
-  coef_ci <- function(df_ci,header) {
+  coef_ci <- function(df_ci, header) {
     plotrix::plotCI(1:nrow(df_ci),df_ci[,1], ui=df_ci[,3], li=df_ci[,2], xaxt='n',
                     xlab="Covariate",ylab="95% Confidence Interval",lwd=2)
 
