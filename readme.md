@@ -5,6 +5,11 @@ corresponding journal and conference papers. This could be useful if you
 analyze animal movement data of any species to understand their movement
 patterns in their surrounding environment. It is a work in progress.
 
+## Dynamic reports
+
+-   [Fitting Hidden Markov Model to the movement
+    data](https://htmlpreview.github.io/?https://github.com/faridcher/cacpl/blob/master/hmm/main.html)
+
 ## File system hierarchy
 
 -   `main.r`: all analyses start here
