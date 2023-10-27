@@ -1,5 +1,5 @@
 ---
-title: "HMM"
+title: "Hidden Markov Model"
 subtitle: "Cheetah 1 Movement Behavior Estimation"
 author: "Farid Cheraghi"
 date: '`r Sys.Date()`'
@@ -9,6 +9,7 @@ nocite: |
 link-citations: true
 output:
   rmarkdown::html_vignette:
+    self_contained: no
     toc: true
     toc_depth: 2
     fig_caption: true
