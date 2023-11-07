@@ -8,7 +8,7 @@ patterns in their surrounding environment. It is a work in progress.
 ## Dynamic reports
 
 -   [Fitting Hidden Markov Model to the movement
-    data](https://htmlpreview.github.io/?https://github.com/faridcher/cacpl/blob/master/hmm/main.html)
+    data](https://github.com/faridcher/cacpl/wiki/hmm)
 
 ## File system hierarchy
 
