@@ -3,28 +3,25 @@ title: "Hidden Markov Model"
 subtitle: "Cheetah 1 Movement Behavior Estimation"
 author: "Farid Cheraghi"
 date: '`r Sys.Date()`'
-bibliography: main.bib
+bibliography: hmm.bib
 nocite: |
   @cheraghi17
 link-citations: true
 output:
-  rmarkdown::html_vignette:
-    # self_contained: no
+  html_document:
+    mathjax: local
+    self_contained: FALSE
     toc: true
     toc_depth: 2
     fig_caption: true
     number_sections: true
-editor_options: 
-  chunk_output_type: console
-vignette: >
-  %\VignetteIndexEntry{Hidden Markov chain model}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache=TRUE, warning = FALSE, message = FALSE, error = FALSE) # default fig.width = fig.height = 3
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache=TRUE, fig.align="center")
 library(magrittr)
+load('hmm.rda')
+source('helpers.r')
 ```
 
 # Intro
@@ -65,22 +62,15 @@ The mean-variance parameterization is being used for gamma instead of more commo
 ```{r 'initvalue', fig.width = 4, fig.height = 4, fig.cap="Superimposition of gamma density function on step-length histogram with various mean and standard deviation values to choose initial values"}
 # invisible(futils::par_fav())
 # load ch1 windspeed hmm model
-load('main.rda')
-source('helpers.r')
-hist(
-  ch1_hmm_windspeed$data$step,
-  freq = F,
-  col = "gray",
-  xlab = 'Step-length (Km)',
-  xlim = c(0, 12),
-  #ylim= c(0,1),
+hist(ch1_hmm_windspeed$data$step,
+  freq = F, col = "gray", xlab = 'Step-length (Km)',
+  xlim = c(0, 12), #ylim= c(0,1),
   main = "")
 
 curve(moveHMM:::dgamma_rcpp(x,.1,.1),0,20,col=1,add=T,lwd=2) #state 1
 curve(moveHMM:::dgamma_rcpp(x,.5,.3),0,20,col=2,add=T,lwd=2) #state 2
 legend("topright",legend=c("State 1","State 2"),lwd=2,col=1:2)
 ```
-
 It is also better to introduce variation to the initial values. Due to the numerical instability, in the model selection procedure, one fixed initial value may not work and the model fitting won't converge. We have introduced random variation using normal distribution with a relatively small variance (0.1) to the initial values to overcome this situation.
 
 ```{r 'mu_sigma0', eval=FALSE, echo=TRUE}
@@ -92,8 +82,7 @@ If some steps are exactly equal to zero, then strictly positive distributions su
 ### Turn-angle
 
 Model fitting convergence is not very much sensitive to the turn-angle initial values compared to step-length.
-Turn-angle means are set to zero and kept fixed for both states and only concentration ($\kappa$) parameter of Von Mises is being estimated where the initial values are set to 1 for moving state and set to a value near zero (0.1) for resting state. 
-
+Turn-angle means are set to zero and kept fixed for both states and only concentration ($\kappa$) parameter of Von Mises is being estimated where the initial values are set to 1 for moving state and set to a value near zero (0.1) for resting state.\
 ![Von-mises distribution for various concentration values](von-mises.png){width=50%}
 
 ## Additional terms
@@ -180,7 +169,7 @@ print(ch1_hmm_windspeed)
 ## Model plot
 Histogram of step lengths with fitted distributions (top-left), histogram of turning angles with fitted distributions (top-right), transition probabilities as functions of wind_speed (bottom-left), and map of decoded track for the cheetah (bottom-right) are shown below:
 
-```{r 'plot_moveHMM', fig.width=3.45, fig.height=3.45}
+```{r 'plot_moveHMM'}
 plot(ch1_hmm_windspeed, ask=FALSE)
 ```
 
@@ -189,7 +178,6 @@ plot(ch1_hmm_windspeed, ask=FALSE)
 In the following illustration the estimated probability of being in each state is shown. The actual states (1,2) could be computed using two approaches:
 
 1. Viterbi: Reconstructs the most probable states sequence, using the Viterbi algorithm [@zucchini09]. The result of Viterbi is shown in the top row of the following illustration.
-
 2. Conditional statement: In this method, if the probability of being in state 1 is more than a threshold i.e. 0.5, then the animal is in state 1.
 
 ```{r plotStates, fig.width = 5, fig.height = 5, fig.cap="Decoded states sequence (top row), and state probabilities of observations (middle and bottom rows)"}

@@ -1,26 +1,20 @@
 ---
 title: "Conservation of Asiatic cheetah and Persian leopard (CACPL)"
-subtitle: "How to use this package?"
+subtitle: "How to use this repository?"
 author: "Farid Cheraghi"
 date: "`r Sys.Date()`"
 output:
-  rmarkdown::html_vignette:
+  html_document:
+    mathjax: local
+    self_contained: FALSE
     toc: true
     toc_depth: 2
     fig_caption: true
     number_sections: true
-vignette: >
-  %\VignetteIndexEntry{How to use this package?}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  cache=TRUE,
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(cache=TRUE, collapse = TRUE, comment = "#>")
 # load('../bk.RData')
 ```
 

@@ -1,12 +1,3 @@
-# Activity data is great!   Very informative. There are all kinds of possibilities of parsing behavioral modes and getting into the nitty-gritty of diel behaviors from activity data.  I would start with heavy exploration, e.g. visualizing against time-of-day,  before and around important events, etc. You can look simulataneously at X, Y and sqrt(X^-37 + Y^2) - a kind of net activity index.
-
-# A possible methodological contribution would be to validate some coarse movement inference with activity data, e.g. to see whether the "encamped" states are much lower activity - they may or may not be at all (if, e.g., being "emcamped" includes moving around for other reasons). In any case, I would suggest just rolling up your sleeves and digging right in.
-# I attach an analysis of panda bear activity collars that I did when Andy and I visited China - there it was to see if we can identify pregnancy and giving birth, but it gives you an idea of some approaches (and basic code).
-
-# Activity data is sampled every 3 minutes in raw data and once plotted against time, there are a lot of variations. So in the following figure, I have computed the net mean diel activity for C1 and L . By net, I mean the RSS (root sum of squares) of activity along x and y axes. I suppose the accurate unit for activity is degree as the activity along x and y axes range between 0 and 360. The figure clearly shows that C1 is much more active than L which means it moves around its head and thus its collar's accelerometer more frequently. The linear regression of net activity against time for both C1 and L is significant. For C1, I clearly  see a trend and the regression line is steeper which indicates as it approaches summer (June-July-Aug) and the temperature increases it becomes more active. I also see a sinusoidal periodic pattern in C1's local regression graph especially between Mar-May but I don't know how to interpret it!
-
-# Parsing behavioral modes shows that while the animals are moving, the net activity values from the sensor are higher and vice versa. This means when the animals are encamped in a limited spatial range they move less (or they have fewer body movements) and vice versa. 
-
 # TODO
 # write a vignette
 # subsample to 1h and draw diel activities boxplots
