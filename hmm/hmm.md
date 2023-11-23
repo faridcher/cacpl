@@ -96,7 +96,7 @@ Initial values chosen for gamma distribution of cheetah step-length
 ``` r
 # invisible(futils::par_fav())
 # load ch1 windspeed hmm model
-hist(ch1_hmm_windspeed![](hmm_eqn/1166184110.png)step,
+hist(ch1_hmm_windspeed$data$step,
   freq = F, col = "gray", xlab = 'Step-length (Km)',
   xlim = c(0, 12), #ylim= c(0,1),
   main = "")
@@ -144,7 +144,7 @@ model fitting and therefore set the *zero mass* equal to 0.
 
 Model fitting convergence is not very much sensitive to the turn-angle
 initial values compared to step-length. Turn-angle means are set to zero
-and kept fixed for both states and only concentration (![](hmm_eqn/151345288.png))
+and kept fixed for both states and only concentration ($\kappa$)
 parameter of Von Mises is being estimated where the initial values are
 set to 1 for moving state and set to a value near zero (0.1) for resting
 state.  
@@ -161,7 +161,7 @@ interactions of the main effects are also used in the model fitting
 process. To avoid further complexity, we have assumed the relation is
 linear and additive. For example, we have models of this type:
 
-![](hmm_eqn/2406070487.png)
+$${\beta _0} + {\beta _1}\cos (wind\_direction) + {\beta _2}height + {\beta _3}heigh{t^2} + {\beta _5}temperature . elevation$$
 
 | Main Effects | Square Root | Logarithm | Angle Cosine | Polynomials | Interaction | Sum |
 |--------------|-------------|-----------|--------------|-------------|-------------|-----|
@@ -172,12 +172,12 @@ List of additional covariates computed from main effects
 So we have 74 covariates that we have to build our model on. Definitely,
 the best automatic approach would be “best subset selection” that takes
 every possible combination of covariates and compares the models
-performance, i.e. using AIC values. However, for ![](hmm_eqn/544432706.png),
-![](hmm_eqn/2428110820.png) models will be computed which is not
+performance, i.e. using AIC values. However, for $n=74$,
+$2^n = 1.9 \times {10^{22}}$ models will be computed which is not
 reasonable. Instead we have opted for the “forward step wise selection”
 which will not find the best possible model, rather a parsimonious model
 close to the best model. forward step wise selection procedure reduces
-the number of models to be evaluated to about ![](hmm_eqn/3763596100.png), which can be
+the number of models to be evaluated to about $n^2 = 5476$, which can be
 done using a modern computer in a fair amount of time.
 
 ## Forward step-wise selection
@@ -187,12 +187,12 @@ set of covariates. The pseudo-code is as the following algorithm:
 
 | Forward step wise selection (FSWS) algorithm ([James et al. 2013](#ref-james13))                  |
 |:--------------------------------------------------------------------------------------------------|
-| 1\. Let ![](hmm_eqn/1588463816.png) denote the null model, which contains no predictors.                                |
-| 2\. For ![](hmm_eqn/776400977.png):                                                                            |
-| i\) Consider all ![](hmm_eqn/2241350667.png) models that augment the predictors in ![](hmm_eqn/3778322266.png) with one additional predictor. |
-| ii\) Choose the best among these ![](hmm_eqn/2241350667.png) models, and call it ![](hmm_eqn/651798190.png).                             |
+| 1\. Let $M_0$ denote the null model, which contains no predictors.                                |
+| 2\. For $k=0,...,p-1$:                                                                            |
+| i\) Consider all $p-k$ models that augment the predictors in $M_k$ with one additional predictor. |
+| ii\) Choose the best among these $p-k$ models, and call it $M_{k+1}$.                             |
 | Here best is defined as having highest likelihood (MLE) value.                                    |
-| 3\. Select a single best model from among ![](hmm_eqn/3767309126.png).                                      |
+| 3\. Select a single best model from among $M_0,...,M_p AIC$.                                      |
 
 ## Result
 
@@ -279,7 +279,9 @@ coefficients of **1 \> 2** and the coefficients for **2 \> 2** could be
 computed from coefficients of **2 \> 1**. They follow this simple
 formula:
 
-![](hmm_eqn/3502815190.png)
+$$\begin{array}{*{20}{c}}
+{{P_{1 > 1}} = 1 - {P_{1 > 2}}}&{,}&{{P_{2 > 2}} = 1 - {P_{2 > 1}}}
+\end{array}$$
 
 ``` r
 hmm_plot_CI(ch1_hmm_windspeed)

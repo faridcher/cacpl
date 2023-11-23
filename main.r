@@ -4,8 +4,8 @@ library(stars)
 library(car)
 
 source('func.r')
-source('read-hab.r')
-source('read-move.r')
+source('read/hab.r')
+source('read/move.r')
 
 ## attach spatial covariates
 dist <- lapply(shps, st_nearest_dist, sfc1=x) %>% rename("_dist", add=T)
