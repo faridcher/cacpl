@@ -92,7 +92,7 @@ dev.off()
 # mode proportion
 par_reset()
 layout(matrix(1:2,2))
-par_fav()
+my_par()
 
 move %>%
   subset((time %between% overlapping_period) &

@@ -1,9 +1,8 @@
-# move_mcp is a list of all home ranges (sfc_polygon)
+#move_mcp is a list of all home ranges (sfc_polygon)
 # move
 
 # overlapping
-move %>%
-  subset(time %between% overlapping_period) %$%
+  subset(move, time %between% overlapping_period) %$%
   split(.,iid) %>%
   lapply(function(xx) {
     xx %>%
@@ -131,7 +130,7 @@ x_chm2 %>%
   x_chm
 
 png_inch("chm-errors.png",width = 1100, height = 1100, units="px")
-par_fav(cex.axis=.8, cex.lab=.8)
+my_par(cex.axis=.8, cex.lab=.8)
 
 plot(
   c(0,100),

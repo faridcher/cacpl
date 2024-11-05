@@ -7,12 +7,12 @@ patterns in their surrounding environment. It is a work in progress.
 
 ## Dynamic reports
 
--   [Fitting Hidden Markov Model to the movement
-    data](https://github.com/faridcher/cacpl/wiki/hmm)
+- [Fitting Hidden Markov Model to the movement
+  data](https://github.com/faridcher/cacpl/wiki/hmm)
 
 ## File system hierarchy
 
--   `main.r`: all analyses start here
+- `main.r`: all analyses start here
 
 ## How to get
 
@@ -34,7 +34,7 @@ cite third and fifth item:
 
 Cheraghi, Farid. 2018. “Movement Mining Using Ambient Intelligence (in
 Persian).” PhD thesis, University of Tehran.
-<http://dx.doi.org/10.13140/RG.2.2.25753.95848>.
+<https://ganj.irandoc.ac.ir/#/articles/0575b0e8b387b735e2501a92a4fda987>.
 
 </div>
 

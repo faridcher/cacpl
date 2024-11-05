@@ -72,7 +72,7 @@ models$lor_mode %>%
 png_inch("plots/vs/lor-mode-l-c1-%02d.png")
 
 layout(matrix(1:6,2,byrow =T ))
-par_fav()
+my_par()
 
 models$lor_mode[c('l','c1')] %>%
   mapply(

@@ -72,7 +72,7 @@ yy <- tb[,
 # dev.new(width=14, height=7)
 
 layout(matrix(1))
-par_fav(mar=c(4,5,1,0))
+my_par(mar=c(4,5,1,0))
 
 yy %$% {
   plot(
@@ -138,7 +138,7 @@ xy <- move[x,on=.(iid,time), nomatch=0]
 
 # png_inch('parse-behavior.png')
 
-par_fav(cex.axis=1)
+my_par(cex.axis=1)
 layout(matrix(1))
 boxplot(act_mean~iid*mode_null,
         xy,

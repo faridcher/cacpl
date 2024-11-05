@@ -1,7 +1,11 @@
+library(sfextra)
+source('regularize.r')
+
 n <- c('c1','c2','l')
-move <- mapply(n, 1, SIMPLIFY=F, FUN=function(n,i) {
-                 f <- paste0('data/cacpl/gps/cheetah/56/*', n, '.csv')
-                 rt <- read.table(file=f, header=TRUE, sep=",")
+n2 <- c('cheetah/56/c1','cheetah/58/c2','leopard/49/l')
+move <- mapply(n, n2, 1, SIMPLIFY=F, FUN=function(n,n2,i) {
+                 f <- paste0('data/gps/', n2, '.csv')
+                 rt <- read.csv(file=f, header=TRUE)
                  within(rt, {
                           # "N/A" becomes NA_real_
                           x <- as.numeric(Longitude)
@@ -25,7 +29,7 @@ move <- st_transform(move, st_crs(utm40_km))
 # plot(st_geometry(move), main='click lower-left and then upper-right spatial range')
 # x <- locator(2, 'p', bg=2, pch=21)
 x <- list(x = c(315.016, 429.98), y = c(3408.545, 3566.760))
-x  <- st_as_sfc(st_bbox(st_linestring(t(do.call(rbind, x)))), crs=st_crs(move))
+x  <- st_sfc(st_as_sfc(st_bbox(st_linestring(t(do.call(rbind, x))))), crs=utm40_km)
 move <- move[st_intersects(move,x,F)[,1],]
 
 move2 <- st_sf(do.call(rbind, by(move, with(move, iid:tid), function(m){

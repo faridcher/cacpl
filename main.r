@@ -3,12 +3,15 @@ library(sf)
 library(stars)
 library(car)
 
-source('func.r')
-source('read/hab.r')
+source('Lag.r')
+source('climate/funcs.r')
+source('interval-intersection.r')
+source('read/habitat.r')
 source('read/move.r')
 
 ## attach spatial covariates
-dist <- lapply(shps, st_nearest_dist, sfc1=x) %>% rename("_dist", add=T)
+dist <- lapply(shps, st_nearest_dist, sfc1=x)
+names(dist) <- paste0(names(dist), "_dist")
 extr <- lapply(rstrs, raster::extract, y=as(x, "Spatial"))
 weath <- time_interpolate_join(x[, 'ti', drop = T], weather_bafgh$`2007`$ti, weather_bafgh$`2007`[, -1])
 move <- cbind(x, extr, dist, weath) # as.data.frame coercion.
@@ -28,7 +31,7 @@ overlapping_period <- with(move, do.call(interval_intersection, split(ti, f=iid)
 with(lapply(rstrs, getValues), cor(elevation, slope, use = "complete.obs"))
 
 png_inch("plots/elev-slope-aspect.png", width=11.3, height = 6.7)
-par_fav(mar=c(3,4,1,4))
+my_par(mar=c(3,4,1,4))
 layout(matrix(1:2,1))
 mapply(rstrs[1:2], main=names(rstrs[1:2]), FUN = plot, MoreArgs= list(xlab = "X (km)", ylab = "Y (km)"))
 dev.off()
@@ -50,7 +53,7 @@ summary(subset(weather_bafgh$`2007`, subset=format(x=.$ti, format="%H") %in% c("
 
 # individuals scans
 png_inch("plots/scan-tracks%d.png", width=12)
-par_fav(cex.lab=2)
+my_par(cex.lab=2)
 s <- split(move,f=move$iid)
 invisible(mapply(s, names(s), FUN = function(xx, yy) with(xx, scan_track(x = x, y = y, time = ti))))
 dev.off()
@@ -68,7 +71,7 @@ dev.off()
 
 png_inch("plots/angle-rose.png")
 #rose diagram of angular statistics
-par_fav()
+my_par()
 layout(matrix(1:6,3,byrow=T))
 mapply(s, names(s), FUN = function(x, y) {
         l <- lapply(subset(x, select = c('abs.angle', 'rel.angle'), drop = T), circular)
